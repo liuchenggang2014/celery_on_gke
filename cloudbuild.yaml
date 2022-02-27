@@ -1,0 +1,16 @@
+# In this directory, run the following command to build this builder.
+# $ gcloud builds submit . --config=cloudbuild.yaml --substitutions _BUCKET='<bucket name>'
+steps:
+#1: build the get token image
+- name: 'docker'
+  args: ['build', '-t', '${_IMAGE_NAME}', '.']
+
+# push the image into registry
+images:
+- ${_IMAGE_NAME}
+
+
+substitutions:
+  _IMAGE_NAME: gcr.io/cliu201/celery_on_gke
+tags: ['celery_on_gke']
+timeout: 1000s
